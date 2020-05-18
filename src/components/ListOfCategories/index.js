@@ -4,6 +4,7 @@ import { List, Item } from './styles'
 
 export const ListOfCategories = () => {
   const [categories, setCategories] = useState([])
+  const [showFixed, setShowFixed] = useState(false)
 
   useEffect(function () {
     window.fetch('http://petgram-server.anestornahuel.now.sh/categories')
@@ -12,6 +13,14 @@ export const ListOfCategories = () => {
         setCategories(response)
       })
   }, [])
+
+  useEffect(function () {
+    const onScroll = e => {
+      const newShowFixed = window.scrollY > 200
+      showFixed !== newShowFixed && setShowFixed(newShowFixed)
+    }
+    document.addEventListener('scroll', onScroll)
+  })
 
   const renderList = (fixed) => (
     <List className={fixed ? 'fixed' : ''}>
@@ -24,7 +33,7 @@ export const ListOfCategories = () => {
   return (
     <>
       {renderList()}
-      {renderList(true)}
+      {showFixed && renderList(true)}
     </>
   )
 }
