@@ -2,22 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { Category } from '../Category'
 import { List, Item } from './styles'
 
-function useCategoriesData() {
+function useCategoriesData () {
   const [categories, setCategories] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(function () {
+    setLoading(true)
     window.fetch('http://petgram-server.anestornahuel.now.sh/categories')
       .then(res => res.json())
       .then(response => {
         setCategories(response)
+        setLoading(false)
       })
   }, [])
 
-  return { categories }
+  return { categories, loading }
 }
 
 export const ListOfCategories = () => {
-  const { categories } = useCategoriesData()
+  const { categories, loading } = useCategoriesData()
   const [showFixed, setShowFixed] = useState(false)
   useEffect(function () {
     const onScroll = e => {
@@ -31,7 +34,9 @@ export const ListOfCategories = () => {
   const renderList = (fixed) => (
     <List fixed={fixed}>
       {
-        categories.map(category => <Item key={category.id}><Category {...category} /></Item>)
+        loading
+          ? 'Loading...'
+          : categories.map(category => <Item key={category.id}><Category {...category} /></Item>)
       }
     </List>
   )
