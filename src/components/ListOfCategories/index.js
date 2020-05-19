@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Category } from '../Category'
 import { List, Item } from './styles'
 
-export const ListOfCategories = () => {
+function useCategoriesData() {
   const [categories, setCategories] = useState([])
-  const [showFixed, setShowFixed] = useState(false)
 
   useEffect(function () {
     window.fetch('http://petgram-server.anestornahuel.now.sh/categories')
@@ -14,6 +13,12 @@ export const ListOfCategories = () => {
       })
   }, [])
 
+  return { categories }
+}
+
+export const ListOfCategories = () => {
+  const { categories } = useCategoriesData()
+  const [showFixed, setShowFixed] = useState(false)
   useEffect(function () {
     const onScroll = e => {
       const newShowFixed = window.scrollY > 200
