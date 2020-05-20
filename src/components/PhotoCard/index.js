@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Article, ImgWrapper, Img, Button } from './styles'
 
-import { AiOutlineLike } from 'react-icons/ai'
+import { AiOutlineLike, AiTwotoneLike } from 'react-icons/ai'
 
 const DEFAULT_IMAGE = 'https://res.cloudinary.com/midudev/image/upload/w_300/q_80/v1560262103/dogs.png'
 
@@ -9,6 +9,9 @@ export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE }) => {
   const element = useRef(null)
 
   const [show, setShow] = useState(false)
+  const [liked, setLiked] = useState(false)
+
+  console.log({ liked })
 
   useEffect(function () {
     Promise.resolve(
@@ -27,6 +30,8 @@ export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE }) => {
     })
   }, [element])
 
+  const Icon = liked ? AiTwotoneLike : AiOutlineLike
+
   return (
     <Article ref={element}>
       {
@@ -37,8 +42,8 @@ export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE }) => {
                 <Img src={src} />
               </ImgWrapper>
             </a>
-            <Button>
-              <AiOutlineLike size='32px' /> {likes} likes!
+            <Button onClick={() => setLiked(!liked)}>
+              <Icon size='32px' /> {likes} likes!
             </Button>
           </>
       }
