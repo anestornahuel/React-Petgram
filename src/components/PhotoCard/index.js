@@ -3,6 +3,8 @@ import { Article, ImgWrapper, Img, Button } from './styles'
 
 import { AiOutlineLike, AiTwotoneLike } from 'react-icons/ai'
 
+import { useLocalStorage } from '../../hooks/useLocalStorage'
+
 const DEFAULT_IMAGE = 'https://res.cloudinary.com/midudev/image/upload/w_300/q_80/v1560262103/dogs.png'
 
 export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE }) => {
@@ -11,14 +13,8 @@ export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE }) => {
   const key = `like-${id}`
 
   const [show, setShow] = useState(false)
-  const [liked, setLiked] = useState(() => {
-    try {
-      const like = window.localStorage.getItem(key)
-      return like
-    } catch (e) {
-      return false
-    }
-  })
+
+  const [liked, setLiked] = useLocalStorage(key, false)
 
   console.log({ liked })
 
@@ -41,15 +37,6 @@ export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE }) => {
 
   const Icon = liked ? AiTwotoneLike : AiOutlineLike
 
-  const setLocalStorage = value => {
-    try {
-      window.localStorage.setItem(key, value)
-      setLiked(value)
-    } catch (e) {
-      console.error(e)
-    }
-  }
-
   return (
     <Article ref={element}>
       {
@@ -60,7 +47,7 @@ export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE }) => {
                 <Img src={src} />
               </ImgWrapper>
             </a>
-            <Button onClick={() => setLocalStorage(!liked)}>
+            <Button onClick={() => setLiked(!liked)}>
               <Icon size='32px' /> {likes} likes!
             </Button>
           </>
