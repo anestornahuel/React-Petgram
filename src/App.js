@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { ListOfCategories } from './components/ListOfCategories'
 import { GlobalStyle } from './styles/GlobalStyles'
 import { ListOfPhotoCards } from './container/ListOfPhotoCards'
@@ -17,10 +17,12 @@ export const App = () => {
       {
         detailId
           ? <PhotoCardWithQuery id={detailId} />
-          : <Fragment>
-            <ListOfCategories />
-            <ListOfPhotoCards categoryId={2} />
-          </Fragment>
+          : (
+            <>
+              <ListOfCategories />
+              <ListOfPhotoCards categoryId={2} />
+            </>
+          )
       }
     </div>
   )
