@@ -7,9 +7,9 @@ const ZISE = '32px'
 export const NavBar = () => {
   return (
     <Nav>
-      <Link to='/'><MdHome size={ZISE}/></Link>
-      <Link to='/favs'><MdFavoriteBorder size={ZISE}/></Link>
-      <Link to='/user'><MdPersonOutline size={ZISE}/></Link>
+      <Link to='/'><MdHome size={ZISE} /></Link>
+      <Link to='/favs'><MdFavoriteBorder size={ZISE} /></Link>
+      <Link to='/user'><MdPersonOutline size={ZISE} /></Link>
     </Nav>
   )
 }
