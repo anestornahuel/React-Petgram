@@ -13,7 +13,7 @@ export const NotRegisteredUser = () => (
           <>
             <RegisterMutation>
               {
-                (register) => {
+                (register, { data, loading, error }) => {
                   // Receive user credentials and pass them to the mutation
                   const onSubmit = ({ email, password }) => {
                     const input = { email, password }
@@ -21,7 +21,8 @@ export const NotRegisteredUser = () => (
                     // Returns a promise since it is a mutation.
                     register({ variables }).then(activateAuth)
                   }
-                  return <UserForm onSubmit={onSubmit} title='Sign in' />
+                  const errorMsg = error && error.message
+                  return <UserForm error={errorMsg} loading={loading} onSubmit={onSubmit} title='Sign in' />
                 }
               }
             </RegisterMutation>
