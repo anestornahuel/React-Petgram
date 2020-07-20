@@ -3,13 +3,18 @@ import React, { createContext, useState } from 'react'
 const Context = createContext()
 
 const Provider = ({ children }) => {
-  const [isAuth, setIsAuth] = useState(false)
+  const [isAuth, setIsAuth] = useState(() => {
+    // The sessionStorage is called in a function since it is synchronous
+    // This avoids freezing the app rendering
+    return window.sessionStorage.getItem('token')
+  })
 
   // Will be passed to Provider as prop
   const value = {
     isAuth,
-    activateAuth: () => {
+    activateAuth: token => {
       setIsAuth(true)
+      window.sessionStorage.setItem('token', token)
     }
   }
 

@@ -20,7 +20,10 @@ export const NotRegisteredUser = () => (
                     const input = { email, password }
                     const variables = { input }
                     // Returns a promise since it is a mutation.
-                    register({ variables }).then(activateAuth)
+                    register({ variables }).then(({ data }) => {
+                      const { signup } = data
+                      activateAuth(signup)
+                    })
                   }
                   const errorMsg = error && error.message
                   return <UserForm error={errorMsg} loading={loading} onSubmit={onSubmit} title='Sign in' />
@@ -35,7 +38,10 @@ export const NotRegisteredUser = () => (
                     const input = { email, password }
                     const variables = { input }
                     // Returns a promise since it is a mutation.
-                    login({ variables }).then(activateAuth)
+                    login({ variables }).then(({ data }) => {
+                      const { login } = data
+                      activateAuth(login)
+                    })
                   }
                   const errorMsg = error && error.message
                   return <UserForm error={errorMsg} loading={loading} onSubmit={onSubmit} title='Log in' />
