@@ -2,6 +2,7 @@ import React from 'react'
 import Context from '../Context'
 import { UserForm } from '../components/UserForm'
 import { RegisterMutation } from '../container/RegisterMutation'
+import { LoginMutation } from '../container/LoginMutation'
 
 export const NotRegisteredUser = () => (
   // Consumer receives a render prop
@@ -26,8 +27,21 @@ export const NotRegisteredUser = () => (
                 }
               }
             </RegisterMutation>
-
-            <UserForm onSubmit={activateAuth} title='Log in' />
+            <LoginMutation>
+              {
+                (login, { data, loading, error }) => {
+                  // Receive user credentials and pass them to the mutation
+                  const onSubmit = ({ email, password }) => {
+                    const input = { email, password }
+                    const variables = { input }
+                    // Returns a promise since it is a mutation.
+                    login({ variables }).then(activateAuth)
+                  }
+                  const errorMsg = error && error.message
+                  return <UserForm error={errorMsg} loading={loading} onSubmit={onSubmit} title='Log in' />
+                }
+              }
+            </LoginMutation>
           </>
         )
       }
