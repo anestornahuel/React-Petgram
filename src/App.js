@@ -9,6 +9,7 @@ import { NotRegisteredUser } from './pages/NotRegisteredUser'
 import { Router, Redirect } from '@reach/router'
 import { NavBar } from './components/NavBar'
 import { Context } from './Context'
+import { NotFound } from './pages/NotFound'
 
 export const App = () => {
   const { isAuth } = useContext(Context)
@@ -17,6 +18,7 @@ export const App = () => {
       <GlobalStyle />
       <Logo />
       <Router>
+        <NotFound default />
         <Home path='/' />
         <Home path='/pet/:id' />
         <Detail path='/detail/:detailId' />
